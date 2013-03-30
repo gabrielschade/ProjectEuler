@@ -1,0 +1,76 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace PrimeFactors
+{
+    /// <summary>
+    /// Obtém o maior fator primo de um determinado número
+    /// </summary>
+    public class Program
+    {
+        public static void Main(string[] args)
+        {
+            const long input = 600851475143;
+            SolveProblemFactory problem = new SolveProblemFactory();
+            problem.SolveProbem(input);
+            
+            Console.WriteLine(problem.PrimeFactors.Max());
+            Console.ReadKey();
+        }
+
+    }
+
+    /// <summary>
+    /// Classe utilizada para resolver o problema
+    /// </summary>
+    public class SolveProblemFactory
+    {
+        public List<int> PrimeFactors { get; private set; }
+
+        public SolveProblemFactory()
+        {
+            PrimeFactors = new List<int>();
+        }
+
+        public void SolveProbem(long input)
+        {
+            int primeFactor = GetNextPrimeNumber(1);
+            while (input != 1)
+            {
+                if (input % primeFactor == 0)
+                {
+                    input = input / primeFactor;
+                    if (!PrimeFactors.Contains(primeFactor))
+                        PrimeFactors.Add(primeFactor);
+                }
+                else
+                {
+                    primeFactor = GetNextPrimeNumber(primeFactor);
+                }
+            }
+        }
+
+        private int GetNextPrimeNumber(int lastPrimeNumber)
+        {
+            int number = ++lastPrimeNumber;
+            while (!IsPrimeNumber(number))
+                number++;
+
+            return number;
+        }
+
+        private bool IsPrimeNumber(int number)
+        {
+            bool returnValue = true;
+            for (int value = number - 1; value >= 2; value--)
+                if (number % value == 0)
+                {
+                    returnValue = false;
+                    break;
+                }
+            return returnValue;
+        }
+    }
+
+}
