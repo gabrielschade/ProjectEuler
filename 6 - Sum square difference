@@ -1,0 +1,58 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace SumSquareDifference
+{
+    /// <summary>
+    /// Obtém o maior fator primo de um determinado número
+    /// </summary>
+    public class Program
+    {
+        public static void Main(string[] args)
+        {
+            ProblemSolver problem = new ProblemSolver();
+            problem.SolveProbem();
+            Console.WriteLine();
+            Console.WriteLine("Result: " + problem.Result);
+            Console.ReadKey();
+        }
+
+    }
+
+    /// <summary>
+    /// Classe utilizada para resolver o problema
+    /// </summary>
+    public class ProblemSolver
+    {
+        public long Result { get; private set; }
+
+        //Initial value always is 1
+        private const int finalValue = 100;
+
+        public void SolveProbem()
+        {
+            Result = SquareOfSum() - SumOfSquares();
+
+        }
+
+        public long SumOfSquares()
+        {
+            long sum = 0;
+
+            for (int number = 1; number <= finalValue; number++)
+                sum += Convert.ToInt64(Math.Pow(number, 2));
+            return sum;
+        }
+
+        public long SquareOfSum()
+        {
+            long sum = 0;
+            for (int number = 1; number <= finalValue; number++)
+                sum += number;
+            return Convert.ToInt64(Math.Pow(sum, 2));
+        }
+
+    }
+
+}
