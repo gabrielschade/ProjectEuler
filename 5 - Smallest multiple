@@ -1,0 +1,57 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace SmallestMultiple
+{
+    /// <summary>
+    /// Obtém o maior fator primo de um determinado número
+    /// </summary>
+    public class Program
+    {
+        public static void Main(string[] args)
+        {
+            SolveProblemFactory problem = new SolveProblemFactory();
+            problem.SolveProbem();
+            Console.WriteLine();
+            Console.WriteLine("Result: " + problem.Result);
+            Console.ReadKey();
+        }
+
+    }
+
+    /// <summary>
+    /// Classe utilizada para resolver o problema
+    /// </summary>
+    public class SolveProblemFactory
+    {
+        private const int initialMultiple = 1;
+        private const int finalMultiple = 20;
+
+        public int Result { get; private set; }
+
+        public void SolveProbem()
+        {
+            for (int number = 2; number >= 0; number++)
+                if (IsDivisible(number))
+                {
+                    Result = number;
+                    break;
+                }
+                
+        }
+
+        private bool IsDivisible(long numberToCheck)
+        {
+            bool result = true;
+            for (int number = initialMultiple; number <= finalMultiple; number++)
+                if (numberToCheck % number != 0)
+                {
+                    result = false;
+                    break;
+                }
+            return result;
+        }
+    }
+
+}
