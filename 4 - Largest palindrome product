@@ -1,0 +1,56 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace PalindromeProduct
+{
+    /// <summary>
+    /// Obtém o maior fator primo de um determinado número
+    /// </summary>
+    public class Program
+    {
+        public static void Main(string[] args)
+        {
+            SolveProblemFactory problem = new SolveProblemFactory();
+            problem.SolveProbem();
+            foreach (long i in problem.Palidromes)
+                Console.WriteLine(i);
+
+            Console.WriteLine();
+            Console.WriteLine("Bigger: " + problem.Palidromes.Max());
+            Console.ReadKey();
+        }
+
+    }
+
+    /// <summary>
+    /// Classe utilizada para resolver o problema
+    /// </summary>
+    public class SolveProblemFactory
+    {
+        private const int initialValue = 100;
+        private const int finalValue = 999;
+
+        public List<long> Palidromes { get; private set; }
+
+        public void SolveProbem()
+        {
+            Palidromes = new List<long>();
+            for (int number1 = initialValue; number1 <= finalValue; number1++)
+                for (int number2 = initialValue; number2 <= finalValue; number2++)
+                {
+                    long result = number1 * number2;
+                    if (IsPalindrome(result))
+                        Palidromes.Add(result);
+                }
+        }
+
+        private bool IsPalindrome(long number)
+        {
+            string textNumber = number.ToString();
+            string textReverseNumber = new string(textNumber.Reverse().ToArray<char>());
+            return textNumber == textReverseNumber;
+        }
+    }
+
+}
