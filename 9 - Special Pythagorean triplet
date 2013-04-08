@@ -1,0 +1,110 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace SpecialPythagoreanTriplet
+{
+    /// <summary>
+    /// Obtém o maior fator primo de um determinado número
+    /// </summary>
+    public class Program
+    {
+        public static void Main(string[] args)
+        {
+            SolveProblem problem = new SolveProblem();
+            problem.SolveProbem();
+            StringBuilder result = new StringBuilder();
+
+            Triplet tripletResult = problem.Triples.Last();
+
+            result.AppendFormat("A = {0}", tripletResult.A);
+            result.AppendLine();
+            result.AppendFormat("B = {0}", tripletResult.B);
+            result.AppendLine();
+            result.AppendFormat("C = {0}", tripletResult.C);
+            result.AppendLine();
+            result.AppendFormat("Product = {0}", tripletResult.Product());
+            Console.WriteLine(result.ToString());
+            Console.ReadKey();
+        }
+
+    }
+
+    /// <summary>
+    /// Classe utilizada para resolver o problema
+    /// </summary>
+    public class SolveProblem
+    {
+        public List<Triplet> Triples { get; set; }
+
+        public void SolveProbem()
+        {
+            Triples = new List<Triplet>();
+            bool problemSolved = false;
+            while (!problemSolved)
+            {
+                for (long a = 1; a < 999; a++)
+                {
+                    if (problemSolved)
+                        break;
+
+                    for (long b = 1; b < 999; b++)
+                    {
+                        double result = CalculatePythagoreanTriple(a, b);
+                        if (result % 1 == 0) //Check for integer values
+                        {
+                            long c = Convert.ToInt64(result);
+
+                            if (IsPythagoreanTriplet(a, b, c))
+                            {
+                                Triplet triple = new Triplet();
+                                triple.A = a;
+                                triple.B = b;
+                                triple.C = c;
+                                Triples.Add(triple);
+                                if (triple.IsAlghoritmResult())
+                                {
+                                    problemSolved = true;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+
+        }
+
+        public double CalculatePythagoreanTriple(long a, long b)
+        {
+            return Math.Sqrt(Math.Pow(a, 2) + Math.Pow(b, 2));
+        }
+
+        public bool IsPythagoreanTriplet(long a, long b, long c)
+        {
+            return a < b && b < c;
+        }
+
+    }
+
+    public class Triplet
+    {
+        public long A { get; set; }
+        public long B { get; set; }
+        public long C { get; set; }
+
+        public long Product()
+        {
+            return A * B * C;
+        }
+
+        public bool IsAlghoritmResult()
+        {
+            return A + B + C == 1000;
+        }
+
+    }
+
+}
