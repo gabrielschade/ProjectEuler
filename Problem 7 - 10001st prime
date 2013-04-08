@@ -1,0 +1,68 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace PrimeFactors
+{
+    /// <summary>
+    /// Obtém o maior fator primo de um determinado número
+    /// </summary>
+    public class Program
+    {
+        public static void Main(string[] args)
+        {
+            SolveProblem problem = new SolveProblem();
+            problem.SolveProbem();
+            
+            Console.WriteLine(problem.PrimeNumbers.Last());
+            Console.ReadKey();
+        }
+
+    }
+
+    /// <summary>
+    /// Classe utilizada para resolver o problema
+    /// </summary>
+    public class SolveProblem
+    {
+        public List<int> PrimeNumbers { get; private set; }
+
+        public SolveProblem()
+        {
+            PrimeNumbers = new List<int>();
+        }
+
+        public void SolveProbem()
+        {
+            int lastPrime = GetNextPrimeNumber(1);
+            PrimeNumbers.Add(lastPrime);
+            while (PrimeNumbers.Count < 10001)
+            {
+                lastPrime = GetNextPrimeNumber(lastPrime);
+                PrimeNumbers.Add(lastPrime);
+            }
+        }
+
+        private int GetNextPrimeNumber(int lastPrimeNumber)
+        {
+            int number = ++lastPrimeNumber;
+            while (!IsPrimeNumber(number))
+                number++;
+
+            return number;
+        }
+
+        private bool IsPrimeNumber(int number)
+        {
+            bool returnValue = true;
+            for (int value = number - 1; value >= 2; value--)
+                if (number % value == 0)
+                {
+                    returnValue = false;
+                    break;
+                }
+            return returnValue;
+        }
+    }
+
+}
