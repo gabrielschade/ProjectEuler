@@ -1,0 +1,100 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace PrimeFactors
+{
+    /// <summary>
+    /// Obtém o maior fator primo de um determinado número
+    /// </summary>
+    public class Program
+    {
+        public static void Main(string[] args)
+        {
+            SolveProblem problem = new SolveProblem();
+            problem.SolveProbem();
+
+            ulong sum = 0;
+            foreach (var prime in problem.PrimeNumbers)
+            {
+                sum += Convert.ToUInt64(prime);
+            }
+
+            Console.WriteLine(sum);
+            Console.ReadKey();
+        }
+
+    }
+
+    /// <summary>
+    /// Classe utilizada para resolver o problema
+    /// </summary>
+    public class SolveProblem
+    {
+        public List<int> PrimeNumbers { get; private set; }
+
+        public SolveProblem()
+        {
+            PrimeNumbers = new List<int>();
+        }
+
+        public void SolveProbem()
+        {
+            GeneratePrimeNumbers(2000000);
+        }
+
+        private void GeneratePrimeNumbers(int finalValue)
+        {
+            List<int> Numbers = new List<int>();
+            Numbers.AddRange(Enumerable.Range(0, finalValue));
+
+            bool[] primes = new bool[Numbers.Count];
+            for (int index = 0; index < primes.Length; index++)
+            {
+                primes[index] = true;
+            }
+            primes[0] = false;
+            primes[1] = false;
+
+            int limit = Convert.ToInt32(Math.Sqrt(Numbers.Count));
+            for (int index = 2; index < limit; index++)
+            {
+                int value = Numbers[index];
+                if (IsPrimeNumber(value))
+                {
+                    for (int prime = value * value; prime < Numbers.Count; prime += value)
+                        primes[prime] = false;
+
+                }
+            }
+
+            PrimeNumbers.AddRange(Numbers.Where(number => primes[number]));
+        }
+
+        private bool IsPrimeNumber(int number)
+        {
+            bool returnValue = number == 2 || number % 2 != 0;
+            int index = 1; //Inicia em 1 para ignorar a verificação com o numero 2 que já é feita acima
+            if (returnValue)
+                do
+                {
+                    if (index >= PrimeNumbers.Count)
+                        break;
+
+                    int value = PrimeNumbers[index];
+                    if (number % value == 0)
+                    {
+                        returnValue = false;
+                        break;
+                    }
+                    index++;
+                }
+                while (true); //O break força o laço a terminar
+
+            return returnValue;
+        }
+    }
+
+
+
+}
